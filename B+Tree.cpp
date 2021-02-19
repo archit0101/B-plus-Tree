@@ -217,6 +217,17 @@ void insert(int a, Node* Root_temp){
         parent.pop();
     }
 }
+void checki(Node* temp){
+    if(!temp)
+    cout<<"ROOT IS NULL"<<endl;
+    else{
+        checki(temp->address[0]);
+        for(int i=0; i<temp->key.size(); i++){
+            cout<<temp->key[i].first<<" = "<< temp->key[i].second<<endl;
+            checki(temp->address[i+1]);
+        }
+    }
+}
 void Find_helper(int a,Node* Root_temp){
     int position=-1;
     if(is_leaf(Root_temp)){
@@ -254,7 +265,7 @@ void count_helper(int a,Node* Root_temp){
     if(is_leaf(Root_temp)){
         for(int i=0;i<Root_temp->key.size();i++){
             if(Root_temp->key[i].first == a){
-                cout<<"Count: "<<Root_temp->key[i].second<<endl;
+                cout<<Root_temp->key[i].second<<endl;
                 return;
             }
         }
@@ -318,9 +329,15 @@ vector<string>split(string s,char del){
   }
   return request;
 }
-int main(){
+int main(int argc,char** argv){
+    if(argc!=2){
+        cout<<"Input Filename not given!!!"<<endl;
+        return -1;
+    }
     Root= Create_Node();
-    ifstream in("input.txt");
+    string filename = argv[1];
+
+    ifstream in(filename.c_str());
 
     if(!in) {
         cout << "Cannot open input file.\n";
