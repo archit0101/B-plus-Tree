@@ -217,17 +217,6 @@ void insert(int a, Node* Root_temp){
         parent.pop();
     }
 }
-void checki(Node* temp){
-    if(!temp)
-    cout<<"ROOT IS NULL"<<endl;
-    else{
-        checki(temp->address[0]);
-        for(int i=0; i<temp->key.size(); i++){
-            cout<<temp->key[i].first<<" = "<< temp->key[i].second<<endl;
-            checki(temp->address[i+1]);
-        }
-    }
-}
 void Find_helper(int a,Node* Root_temp){
     int position=-1;
     if(is_leaf(Root_temp)){
