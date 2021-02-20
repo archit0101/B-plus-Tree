@@ -58,45 +58,47 @@ void split_nonleaf(Node* Root_temp){
 void insert_nonleaf(Node* Root_temp, Node* left, Node* Right,pair<int,int>a){
     if((Root_temp->key).size()<order-1){
         int set=0;
-        vector <Node*> :: iterator j=(Root_temp->address).begin();
+        int j=0;
         vector<pair<int,int> > :: iterator i=(Root_temp->key).begin();
 
-        for(;i!=(Root_temp->key).end() && j!=(Root_temp->address).end();i++,j++){
+        for(;i!=(Root_temp->key).end() && j<(Root_temp->address).size();i++,j++){
             if (a.first < (*i).first){
                 set=1;
                 (Root_temp->key).insert(i,make_pair(a.first,a.second));
-                (Root_temp->address).insert(j,left);
-                vector <Node*> :: iterator j_temp=j+1;
-                (Root_temp->address).insert(j_temp,Right);
+                for(int x=Root_temp->address.size()-1; x>j+1 ;x--){
+                    Root_temp->address[x]=Root_temp->address[x-1];
+                }
+                Root_temp->address[j+1]=Right;
                 break;
             }           
         }
         if (set==0){
             (Root_temp->key).push_back(make_pair(a.first,a.second));
             int index = (Root_temp->key).size();
-            (Root_temp->address)[index-1] = left;
             (Root_temp->address)[index] = Right;
         }        
     }
     else{
         int set=0;
-        vector <Node*> :: iterator j=(Root_temp->address).begin();
+        int j=0;
         vector<pair<int,int> > :: iterator i=(Root_temp->key).begin();
 
-        for(;i!=(Root_temp->key).end() && j!=(Root_temp->address).end();i++,j++){
+        for(;i!=(Root_temp->key).end() && j < (Root_temp->address).size();i++,j++){
             if (a.first < (*i).first){
                 set=1;
                 (Root_temp->key).insert(i,a);
-                (Root_temp->address).insert(j,left);
-                vector <Node*> :: iterator j_temp=j+1;
-                (Root_temp->address).insert(j_temp,Right);
+                cout << Root_temp->key[0].first;
+                for(int x=Root_temp->address.size()-1;x>j+1;x--){
+                    Root_temp->address[x]=Root_temp->address[x-1];
+                }
+                cout << Root_temp->key[0].first;
+                Root_temp->address[j+1]=Right;
                 break;
             }           
         }
         if (set==0){
             (Root_temp->key).push_back(make_pair(a.first,a.second));
             int index = (Root_temp->key).size();
-            (Root_temp->address)[index-1] = left;
             (Root_temp->address)[index] = Right;
         }
         if ((Root_temp->key).size()==order){
@@ -129,6 +131,7 @@ void split_leaf(Node* Root_temp){
     else{
         //Idhar humko tab karna hai jab leaf node kaa parent ho tab!!!!!!!!!!!!
         Node* p = parent.top();
+        cout<<p->key[0].first<<endl;
         parent.pop();
         insert_nonleaf(p,Root_temp,temp,temp->key[0]);
     }
@@ -170,6 +173,7 @@ void insert_leaf(int a,Node* Root_temp){
         if (set==0){
             (Root_temp->key).push_back(make_pair(a,1));
         }
+        cout<<Root_temp->key[0].first<<" "<<Root_temp->key[1].first<<" "<<Root_temp->key[2].first<<endl;
         if ((Root_temp->key).size()==order){
             split_leaf(Root_temp);
         }
@@ -217,17 +221,7 @@ void insert(int a, Node* Root_temp){
         parent.pop();
     }
 }
-void checki(Node* temp){
-    if(!temp)
-    cout<<"ROOT IS NULL"<<endl;
-    else{
-        checki(temp->address[0]);
-        for(int i=0; i<temp->key.size(); i++){
-            cout<<temp->key[i].first<<" = "<< temp->key[i].second<<endl;
-            checki(temp->address[i+1]);
-        }
-    }
-}
+
 void Find_helper(int a,Node* Root_temp){
     int position=-1;
     if(is_leaf(Root_temp)){
@@ -265,7 +259,7 @@ void count_helper(int a,Node* Root_temp){
     if(is_leaf(Root_temp)){
         for(int i=0;i<Root_temp->key.size();i++){
             if(Root_temp->key[i].first == a){
-                cout<<Root_temp->key[i].second<<endl;
+                cout<<"Count: "<<Root_temp->key[i].second<<endl;
                 return;
             }
         }
