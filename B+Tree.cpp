@@ -87,11 +87,9 @@ void insert_nonleaf(Node* Root_temp, Node* left, Node* Right,pair<int,int>a){
             if (a.first < (*i).first){
                 set=1;
                 (Root_temp->key).insert(i,a);
-                cout << Root_temp->key[0].first;
                 for(int x=Root_temp->address.size()-1;x>j+1;x--){
                     Root_temp->address[x]=Root_temp->address[x-1];
                 }
-                cout << Root_temp->key[0].first;
                 Root_temp->address[j+1]=Right;
                 break;
             }           
@@ -131,7 +129,6 @@ void split_leaf(Node* Root_temp){
     else{
         //Idhar humko tab karna hai jab leaf node kaa parent ho tab!!!!!!!!!!!!
         Node* p = parent.top();
-        cout<<p->key[0].first<<endl;
         parent.pop();
         insert_nonleaf(p,Root_temp,temp,temp->key[0]);
     }
@@ -173,7 +170,6 @@ void insert_leaf(int a,Node* Root_temp){
         if (set==0){
             (Root_temp->key).push_back(make_pair(a,1));
         }
-        cout<<Root_temp->key[0].first<<" "<<Root_temp->key[1].first<<" "<<Root_temp->key[2].first<<endl;
         if ((Root_temp->key).size()==order){
             split_leaf(Root_temp);
         }
@@ -302,8 +298,9 @@ void Range(int x, int y){
     while(1){
         for(int i=0;i<(Root_temp->key).size();i++){
             if (Root_temp->key[i].first>=x && Root_temp->key[i].first<=y){
-                for(int j=0;j<Root_temp->key[i].second;j++)
+                for(int j=0;j<Root_temp->key[i].second;j++){
                     cout<<Root_temp->key[i].first<<endl;
+                }
             }
         }
         if (Root_temp->address[order-1] != NULL){
